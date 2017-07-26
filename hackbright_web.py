@@ -37,29 +37,23 @@ def get_student_form():
 def student_add():
     """Add a student."""
 
-    # FIX THIS !!!!!!!!!!!!!!!!!!!!
-    # if request.method == 'POST':
-    #     return redirect('/student-added')
+    first_name = request.form.get("first_name")
+    last_name = request.form.get("last_name")
+    github = request.form.get("github")
 
-    # return render_template("add_student.html")
-    pass
-
-
-
-@app.route("/student-added", methods=['POST'])
-def student_added_display():
-    """Displays a page confirming that a sudent was added."""
-
-    new_student = request.form.get("first_name", "last_name", "github")
-
-    first, last, github = hackbright.make_new_student(new_student[0],
-                                                      new_student[1],
-                                                      new_student[2])
+    hackbright.make_new_student(first_name, last_name, github)
 
     return render_template("student_added.html",
-                           first=first,
-                           last=last,
+                           first=first_name,
+                           last=last_name,
                            github=github)
+
+
+@app.route("/student-add", methods=['GET'])
+def show_student_add_page():
+    """Displays the add student page"""
+
+    return render_template("add_student.html")
 
 
 if __name__ == "__main__":
